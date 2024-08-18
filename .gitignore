@@ -1,3 +1,12 @@
+# Build directory
+build/
+
+# Hidden cache directory used by clangd
+.cache/
+
+# Debug symbols
+*.dSYM/
+
 # Prerequisites
 *.d
 
@@ -30,3 +39,7 @@
 *.exe
 *.out
 *.app
+
+# LLVM IR and bitcode
+*.ll
+*.bc
