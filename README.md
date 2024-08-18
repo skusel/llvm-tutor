@@ -233,6 +233,7 @@ level of complexity.
 |[**RIV**](#riv) | finds reachable integer values for each basic block | Analysis |
 |[**DuplicateBB**](#duplicatebb) | duplicates basic blocks, requires **RIV** analysis results | CFG |
 |[**MergeBB**](#mergebb) | merges duplicated basic blocks | CFG |
+|[**LoadChecker**](#loadchecker) | checks for dereferenced nullptrs | Transformation |
 
 Once you've [built](#building--testing) this project, you can experiment with
 every pass separately. All passes, except for
@@ -948,6 +949,19 @@ The values are subtracted from each other and the absolute value of their
 difference is calculated. If this absolute difference is less than the value of
 the machine epsilon, the original two floating-point values are considered to
 be equal.
+
+## LoadChecker
+The **LoadChecker** pass is a transformation pass that checks if load
+instructions are trying to dereference a NULL pointer.
+
+### Run the pass
+We will use [input_for_load.c](inputs/input_for_load.c) to test **LoadChecker**.
+
+```bash
+export LLVM_DIR=<installation/dir/of/llvm/18>
+$LLVM_DIR/bin/clang -emit-llvm -S <source_dir>/inputs/input_for_load.c -o input_for_load.ll
+$LLVM_DIR/bin/opt -load-pass-plugin=<build_dir>/lib/libLoadChecker.so -passes="load-checker" -S input_for_load.ll -o loadchecked.ll
+```
 
 Debugging
 ==========
